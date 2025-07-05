@@ -58,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        4.发送验证码
         //TODO 只是模拟，要用阿里云付钱的
         log.debug("发送验证码： {}", code);
-
+        System.out.println("验证码： " + code);
         return Result.ok();
 
     }
