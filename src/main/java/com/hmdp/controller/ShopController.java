@@ -2,6 +2,7 @@ package com.hmdp.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hmdp.dto.Result;
 import com.hmdp.entity.Shop;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.hmdp.utils.RedisConstants.CACHE_SHOP_KEY;
+import static com.hmdp.utils.RedisConstants.CACHE_SHOP_TTL;
 
 /**
  * <p>
@@ -40,12 +44,33 @@ public class ShopController {
      */
     @GetMapping("/{id}")
     public Result queryShopById(@PathVariable("id") Long id) {
-        //从redis中查询商铺信息
-        //这里Hash也行，用value只是为了各种都用一用
-        String shopJson = stringRedisTemplate.opsForValue().get(CACHE_SHOP_KEY  + id);
-
-        return Result.ok(shopService.getById(id));
+        return shopService.queryById(id);
     }
+//    @GetMapping("/{id}")
+//    public Result queryShopById(@PathVariable("id") Long id) {
+//        //从redis中查询商铺信息
+//        //这里Hash也行，用value只是为了各种都用一用
+//        String key =CACHE_SHOP_KEY  + id;
+//        String shopJson = stringRedisTemplate.opsForValue().get(key);
+//
+//        if(StrUtil.isNotBlank(shopJson) ){
+//            //如果有，直接返回
+//            Shop shop = JSONUtil.toBean(shopJson,Shop.class);
+//            return Result.ok(shop);
+//        }
+//
+//        //如果没有，查询数据库
+//        Shop shop = shopService.getById(id);
+//        if(shop == null) {
+//            //如果数据库也没有，返回错误
+//            return Result.fail("商铺不存在");
+//        }
+//
+//        //如果数据库有，写入redis
+//        stringRedisTemplate.opsForValue().set(key,JSONUtil.toJsonStr(shop), CACHE_SHOP_TTL , TimeUnit.MINUTES);
+//
+//        return Result.ok(shop);
+//    }
 
     /**
      * 新增商铺信息
@@ -68,8 +93,9 @@ public class ShopController {
     @PutMapping
     public Result updateShop(@RequestBody Shop shop) {
         // 写入数据库
-        shopService.updateById(shop);
-        return Result.ok();
+//        shopService.updateById(shop);
+//        return Result.ok();
+        return shopService.update(shop);
     }
 
     /**

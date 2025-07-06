@@ -59,6 +59,14 @@ public class RedisConstants {
      */
     public static final Long CACHE_SHOP_TTL = 30L;
 
+    // ========================== 分类缓存相关常量 ==========================
+    /**
+     * 商铺信息的缓存键前缀
+     * 完整键名格式：cache:shop:商铺ID（如 cache:shop:1001）
+     * 用于缓存商铺的基本信息（名称、地址、营业时间等）
+     */
+    public static final String CATEGORY_KEY = "category:names:";
+
 
     // ========================== 分布式锁相关常量 ==========================
     /**
