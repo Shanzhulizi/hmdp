@@ -173,9 +173,10 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         //如果缓存命中，先反序列化
         RedisData redisData = JSONUtil.toBean(shopJson, RedisData.class);
 
-        LocalDateTime expireTime = redisData.getExpireTime();
-        Shop shop = (Shop) redisData.getData();
+        Object data = redisData.getData();
+        Shop shop = JSONUtil.toBean(JSONUtil.toJsonStr(data) , Shop.class);
         //判断是否逻辑过期
+        LocalDateTime expireTime = redisData.getExpireTime();
         if (expireTime.isAfter(LocalDateTime.now())) {
             //如果没有过期，直接返回
             return shop;
