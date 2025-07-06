@@ -63,6 +63,18 @@ Hutool 是一个功能丰富的 Java 工具类库，旨在简化 Java 开发过�
             <artifactId>hutool-all</artifactId>
             <version>5.7.17</version>
         </dependency>
+
+<!--    aspectjweaver 是 AspectJ 框架的织入器（Weaver），主要用于支持 AOP（面向切面编程）中的动态代理和字节码增强    -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.23.5</version>
+        </dependency>
     </dependencies>
 
     <build>
